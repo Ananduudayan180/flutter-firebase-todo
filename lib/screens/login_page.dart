@@ -4,6 +4,7 @@ class LoginPage extends StatelessWidget {
   LoginPage({super.key});
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final _loginKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -13,6 +14,7 @@ class LoginPage extends StatelessWidget {
         height: double.infinity,
         width: double.infinity,
         child: Form(
+          key: _loginKey,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -35,6 +37,13 @@ class LoginPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Email is required';
+                    } else {
+                      return null;
+                    }
+                  },
                 ),
               ),
               SizedBox(height: 10),
@@ -52,6 +61,13 @@ class LoginPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Password is required';
+                    } else {
+                      return null;
+                    }
+                  },
                 ),
               ),
               SizedBox(height: 10),
@@ -59,6 +75,7 @@ class LoginPage extends StatelessWidget {
               InkWell(
                 onTap: () {
                   //Login action
+                  if (_loginKey.currentState?.validate() ?? false) {}
                 },
                 child: Container(
                   height: 48,
