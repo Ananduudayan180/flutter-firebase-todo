@@ -17,6 +17,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         scaffoldBackgroundColor: Color(0xff0E1D3E),
         textTheme: TextTheme(
+          headlineMedium: GoogleFonts.poppins(
+            color: Colors.white,
+            fontSize: 20,
+            fontWeight: FontWeight.w500,
+          ),
           titleMedium: GoogleFonts.poppins(
             color: Colors.white,
             fontSize: 16,
