@@ -5,6 +5,7 @@ class SignUpPage extends StatelessWidget {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final _signUpKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -14,6 +15,7 @@ class SignUpPage extends StatelessWidget {
         height: double.infinity,
         width: double.infinity,
         child: Form(
+          key: _signUpKey,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -36,6 +38,13 @@ class SignUpPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Name is required';
+                    } else {
+                      return null;
+                    }
+                  },
                 ),
               ),
               SizedBox(height: 10),
@@ -52,6 +61,13 @@ class SignUpPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Email is required';
+                    } else {
+                      return null;
+                    }
+                  },
                 ),
               ),
               SizedBox(height: 10),
@@ -69,6 +85,13 @@ class SignUpPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Password is required';
+                    } else {
+                      return null;
+                    }
+                  },
                 ),
               ),
               SizedBox(height: 10),
@@ -76,6 +99,7 @@ class SignUpPage extends StatelessWidget {
               InkWell(
                 onTap: () {
                   // Sign up action
+                  if (_signUpKey.currentState?.validate() ?? false) {}
                 },
                 child: Container(
                   height: 48,
