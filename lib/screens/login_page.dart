@@ -101,6 +101,7 @@ class LoginPage extends StatelessWidget {
                   InkWell(
                     onTap: () {
                       //Handle create account action
+                      Navigator.pushNamed(context, '/signUp');
                     },
                     child: Text(
                       'Create Account',
