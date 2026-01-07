@@ -15,6 +15,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          iconTheme: IconThemeData(color: Colors.white),
+        ),
         scaffoldBackgroundColor: Color(0xff0E1D3E),
         textTheme: TextTheme(
           headlineMedium: GoogleFonts.poppins(
