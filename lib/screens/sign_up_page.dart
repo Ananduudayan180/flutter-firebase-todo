@@ -11,6 +11,16 @@ class SignUpPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios, color: Colors.white),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
       body: SizedBox(
         height: double.infinity,
         width: double.infinity,
