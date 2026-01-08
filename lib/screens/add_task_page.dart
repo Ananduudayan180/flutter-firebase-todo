@@ -6,6 +6,7 @@ class AddTaskPage extends StatelessWidget {
   AddTaskPage({super.key});
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
+  final _addTaskKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -24,34 +25,44 @@ class AddTaskPage extends StatelessWidget {
         child: SizedBox(
           height: double.infinity,
           width: double.infinity,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Add Task', style: themeData.textTheme.headlineMedium),
-              const Divider(color: Colors.teal),
-              //Title TextFormField
-              AppTextFormField(
-                hintText: 'Title',
-                errorMsg: 'Title is required',
-                controller: _titleController,
-              ),
-              SizedBox(height: 10),
-              //Description TextFormField
-              AppTextFormField(
-                hintText: 'Description',
-                errorMsg: 'Description is required',
-                controller: _descriptionController,
-              ),
-              SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  //Add Task Button
-                  CustomButton(buttonName: 'Add Task', onPressed: () {}),
-                ],
-              ),
-            ],
+          child: Form(
+            key: _addTaskKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Add Task', style: themeData.textTheme.headlineMedium),
+                const Divider(color: Colors.teal),
+                //Title TextFormField
+                AppTextFormField(
+                  hintText: 'Title',
+                  errorMsg: 'Title is required',
+                  controller: _titleController,
+                ),
+                SizedBox(height: 10),
+                //Description TextFormField
+                AppTextFormField(
+                  hintText: 'Description',
+                  errorMsg: 'Description is required',
+                  controller: _descriptionController,
+                ),
+                SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    //Add Task Button
+                    CustomButton(
+                      buttonName: 'Add Task',
+                      onPressed: () {
+                        if (_addTaskKey.currentState?.validate() ?? false) {
+                          //Handle add task action
+                        }
+                      },
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
