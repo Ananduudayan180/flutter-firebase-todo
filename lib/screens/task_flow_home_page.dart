@@ -10,7 +10,9 @@ class TaskFlowHomePage extends StatelessWidget {
       //FAB
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.teal,
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pushNamed(context, '/addTask');
+        },
         child: Icon(Icons.add, color: Colors.white),
       ),
       body: SafeArea(
