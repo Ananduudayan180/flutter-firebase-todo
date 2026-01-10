@@ -4,8 +4,12 @@ import 'package:task_flow/screens/add_task_page.dart';
 import 'package:task_flow/screens/task_flow_home_page.dart';
 import 'package:task_flow/screens/login_page.dart';
 import 'package:task_flow/screens/sign_up_page.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }
 
