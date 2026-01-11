@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:task_flow/screens/widgets/custom_button.dart';
 import 'package:task_flow/screens/widgets/text_form_field.dart';
@@ -76,9 +78,36 @@ class _SignUpPageState extends State<SignUpPage> {
                     //Login Button
                     CustomButton(
                       buttonName: 'Sign up',
-                      onPressed: () {
-                        if (_signUpKey.currentState?.validate() ?? false) {
-                          //Handle sign up action
+                      onPressed: () async {
+                        //Handle sign up action
+                        if (_signUpKey.currentState!.validate()) {
+                          final UserCredential userData = await FirebaseAuth
+                              .instance
+                              .createUserWithEmailAndPassword(
+                                email: _emailController.text.trim(),
+                                password: _passwordController.text.trim(),
+                              );
+
+                          if (userData.user != null) {
+                            await FirebaseFirestore.instance
+                                .collection('users')
+                                .doc(userData.user!.uid)
+                                .set({
+                                  'uid': userData.user!.uid,
+                                  'name': _nameController.text,
+                                  'email': userData.user!.email,
+                                  'createAt': DateTime.now(),
+                                  'status': 1,
+                                })
+                                .then((value) {
+                                  if (!context.mounted) return;
+                                  Navigator.pushNamedAndRemoveUntil(
+                                    context,
+                                    '/homePage',
+                                    (route) => false,
+                                  );
+                                });
+                          }
                         }
                       },
                     ),
