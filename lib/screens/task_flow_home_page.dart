@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 
-class TaskFlowHomePage extends StatelessWidget {
+class TaskFlowHomePage extends StatefulWidget {
   const TaskFlowHomePage({super.key});
 
+  @override
+  State<TaskFlowHomePage> createState() => _TaskFlowHomePageState();
+}
+
+class _TaskFlowHomePageState extends State<TaskFlowHomePage> {
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
