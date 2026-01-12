@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:task_flow/screens/widgets/custom_button.dart';
 import 'package:task_flow/screens/widgets/text_form_field.dart';
@@ -52,9 +53,21 @@ class _LoginPageState extends State<LoginPage> {
                 //Login Button
                 CustomButton(
                   buttonName: 'Login',
-                  onPressed: () {
-                    if (_loginKey.currentState?.validate() ?? false) {
-                      //Handle login action
+                  onPressed: () async {
+                    if (_loginKey.currentState!.validate()) {
+                      await FirebaseAuth.instance
+                          .signInWithEmailAndPassword(
+                            email: _emailController.text.trim(),
+                            password: _passwordController.text.trim(),
+                          )
+                          .then((value) {
+                            if (!context.mounted) return;
+                            Navigator.pushNamedAndRemoveUntil(
+                              context,
+                              '/homePage',
+                              (route) => false,
+                            );
+                          });
                     }
                   },
                 ),
