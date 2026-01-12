@@ -2,8 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:task_flow/screens/widgets/custom_button.dart';
 import 'package:task_flow/screens/widgets/text_form_field.dart';
 
-class LoginPage extends StatelessWidget {
-  LoginPage({super.key});
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final _loginKey = GlobalKey<FormState>();
