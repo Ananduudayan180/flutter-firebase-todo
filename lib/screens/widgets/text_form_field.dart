@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 class AppTextFormField extends StatelessWidget {
   final String hintText;
-  final String errorMsg;
+  final String? Function(String? value)? validator;
   final TextEditingController controller;
   final bool obscureText;
 
   const AppTextFormField({
     super.key,
     required this.hintText,
-    required this.errorMsg,
+    required this.validator,
     required this.controller,
     this.obscureText = false,
   });
@@ -26,13 +26,7 @@ class AppTextFormField extends StatelessWidget {
         hintStyle: themeData.textTheme.bodyMedium,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
       ),
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return errorMsg;
-        } else {
-          return null;
-        }
-      },
+      validator: validator,
     );
   }
 }

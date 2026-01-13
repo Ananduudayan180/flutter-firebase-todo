@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:task_flow/screens/widgets/custom_button.dart';
 import 'package:task_flow/screens/widgets/text_form_field.dart';
+import 'package:task_flow/screens/widgets/validation.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -56,21 +57,21 @@ class _SignUpPageState extends State<SignUpPage> {
                     //Name TextFormField
                     AppTextFormField(
                       hintText: 'Name',
-                      errorMsg: 'Name is required',
+                      validator: Validation.nameValidator,
                       controller: _nameController,
                     ),
                     SizedBox(height: 10),
                     //Email TextFormField
                     AppTextFormField(
                       hintText: 'Email',
-                      errorMsg: 'Email is required',
+                      validator: Validation.emailValidator,
                       controller: _emailController,
                     ),
                     SizedBox(height: 10),
                     //Pass TextFormField
                     AppTextFormField(
                       hintText: 'Password',
-                      errorMsg: 'Password is required',
+                      validator: Validation.passValidator,
                       controller: _passwordController,
                       obscureText: true,
                     ),

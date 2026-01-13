@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:task_flow/screens/widgets/custom_button.dart';
 import 'package:task_flow/screens/widgets/text_form_field.dart';
+import 'package:task_flow/screens/widgets/validation.dart';
 
 class AddTaskPage extends StatelessWidget {
   AddTaskPage({super.key});
@@ -36,14 +37,14 @@ class AddTaskPage extends StatelessWidget {
                 //Title TextFormField
                 AppTextFormField(
                   hintText: 'Title',
-                  errorMsg: 'Title is required',
+                  validator: Validation.taskTitleValidator,
                   controller: _titleController,
                 ),
                 SizedBox(height: 10),
                 //Description TextFormField
                 AppTextFormField(
                   hintText: 'Description',
-                  errorMsg: 'Description is required',
+                  validator: Validation.taskContentValidator,
                   controller: _descriptionController,
                 ),
                 SizedBox(height: 10),
