@@ -7,20 +7,27 @@ class AuthService {
   final CollectionReference _userCollection = FirebaseFirestore.instance
       .collection('users');
 
-  Future<void> registerUser(UserModel user) async {
-    UserCredential userData = await _auth.createUserWithEmailAndPassword(
-      email: user.email.toString(),
-      password: user.password.toString(),
-    );
-
-    if (userData.user != null) {
-      await _userCollection.doc(userData.user!.uid).set({
-        'uid': userData.user!.uid,
-        'name': user.name,
-        'email': userData.user!.email,
-        'createAt': user.createdAt,
-        'status': user.status,
-      });
+  Future<UserCredential> registerUser(UserModel user) async {
+    final UserCredential userData;
+    try {
+      userData = await _auth.createUserWithEmailAndPassword(
+        email: user.email!,
+        password: user.password!,
+      );
+      if (userData.user != null) {
+        await _userCollection.doc(userData.user!.uid).set({
+          'uid': userData.user!.uid,
+          'name': user.name,
+          'email': userData.user!.email,
+          'status': user.status,
+          'createAt': user.createdAt,
+        });
+      }
+    } on FirebaseAuthException catch (_) {
+      rethrow;
+    } on FirebaseException catch (_) {
+      rethrow;
     }
+    return userData;
   }
 }

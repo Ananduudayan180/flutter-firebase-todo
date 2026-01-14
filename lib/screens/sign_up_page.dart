@@ -1,9 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:task_flow/models/user_model.dart';
 import 'package:task_flow/screens/widgets/custom_button.dart';
 import 'package:task_flow/screens/widgets/text_form_field.dart';
 import 'package:task_flow/screens/widgets/validation.dart';
+import 'package:task_flow/services/auth_service.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -17,6 +18,8 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final _signUpKey = GlobalKey<FormState>();
+  final AuthService _auth = AuthService();
+  UserModel _userModel = UserModel();
 
   @override
   Widget build(BuildContext context) {
@@ -82,32 +85,42 @@ class _SignUpPageState extends State<SignUpPage> {
                       onPressed: () async {
                         //Handle sign up action
                         if (_signUpKey.currentState!.validate()) {
-                          final UserCredential userData = await FirebaseAuth
-                              .instance
-                              .createUserWithEmailAndPassword(
-                                email: _emailController.text.trim(),
-                                password: _passwordController.text.trim(),
-                              );
+                          //UserModel
+                          _userModel = UserModel(
+                            name: _nameController.text,
+                            email: _emailController.text.trim(),
+                            password: _passwordController.text.trim(),
+                            status: 1,
+                            createdAt: DateTime.now(),
+                          );
 
-                          if (userData.user != null) {
-                            await FirebaseFirestore.instance
-                                .collection('users')
-                                .doc(userData.user!.uid)
-                                .set({
-                                  'uid': userData.user!.uid,
-                                  'name': _nameController.text,
-                                  'email': userData.user!.email,
-                                  'createAt': DateTime.now(),
-                                  'status': 1,
-                                })
-                                .then((value) {
-                                  if (!context.mounted) return;
-                                  Navigator.pushNamedAndRemoveUntil(
-                                    context,
-                                    '/homePage',
-                                    (route) => false,
-                                  );
-                                });
+                          try {
+                            await _auth.registerUser(_userModel);
+
+                            if (!context.mounted) return;
+                            Navigator.pushNamedAndRemoveUntil(
+                              context,
+                              '/homePage',
+                              (route) => false,
+                            );
+                          } on FirebaseAuthException catch (e) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  e.message ??
+                                      'Something went wrong. Please try again.',
+                                ),
+                              ),
+                            );
+                          } on FirebaseException catch (e) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  e.message ??
+                                      'Something went wrong. Please try again.',
+                                ),
+                              ),
+                            );
                           }
                         }
                       },
