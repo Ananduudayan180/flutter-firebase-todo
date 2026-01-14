@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:task_flow/models/user_model.dart';
 import 'package:task_flow/screens/widgets/custom_button.dart';
+import 'package:task_flow/utils/snack_bar.dart';
 import 'package:task_flow/screens/widgets/text_form_field.dart';
 import 'package:task_flow/screens/widgets/validation.dart';
 import 'package:task_flow/services/auth_service.dart';
@@ -110,22 +111,14 @@ class _SignUpPageState extends State<SignUpPage> {
                                   (route) => false,
                                 );
                               } on FirebaseAuthException catch (e) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(
-                                      e.message ??
-                                          'Something went wrong. Please try again.',
-                                    ),
-                                  ),
+                                ShowExceptionBar.showSnackBar(
+                                  context,
+                                  e.message,
                                 );
                               } on FirebaseException catch (e) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(
-                                      e.message ??
-                                          'Something went wrong. Please try again.',
-                                    ),
-                                  ),
+                                ShowExceptionBar.showSnackBar(
+                                  context,
+                                  e.message,
                                 );
                               } finally {
                                 setState(() {
