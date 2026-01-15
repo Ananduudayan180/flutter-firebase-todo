@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:task_flow/models/user_model.dart';
-import 'package:task_flow/screens/widgets/custom_button.dart';
+import 'package:task_flow/widgets/custom_button.dart';
 import 'package:task_flow/utils/snack_bar.dart';
-import 'package:task_flow/screens/widgets/text_form_field.dart';
+import 'package:task_flow/widgets/text_form_field.dart';
 import 'package:task_flow/utils/validation.dart';
 import 'package:task_flow/services/auth_service.dart';
 

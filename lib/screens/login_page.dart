@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:task_flow/screens/widgets/custom_button.dart';
-import 'package:task_flow/screens/widgets/text_form_field.dart';
+import 'package:task_flow/widgets/custom_button.dart';
+import 'package:task_flow/widgets/text_form_field.dart';
 import 'package:task_flow/utils/validation.dart';
 
 class LoginPage extends StatefulWidget {
