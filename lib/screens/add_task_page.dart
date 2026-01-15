@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:task_flow/screens/widgets/custom_button.dart';
 import 'package:task_flow/screens/widgets/text_form_field.dart';
-import 'package:task_flow/screens/widgets/validation.dart';
+import 'package:task_flow/utils/validation.dart';
 
 class AddTaskPage extends StatelessWidget {
   AddTaskPage({super.key});

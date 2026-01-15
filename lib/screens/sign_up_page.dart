@@ -4,7 +4,7 @@ import 'package:task_flow/models/user_model.dart';
 import 'package:task_flow/screens/widgets/custom_button.dart';
 import 'package:task_flow/utils/snack_bar.dart';
 import 'package:task_flow/screens/widgets/text_form_field.dart';
-import 'package:task_flow/screens/widgets/validation.dart';
+import 'package:task_flow/utils/validation.dart';
 import 'package:task_flow/services/auth_service.dart';
 
 class SignUpPage extends StatefulWidget {
