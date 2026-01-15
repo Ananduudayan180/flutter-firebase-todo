@@ -21,7 +21,36 @@ class _SignUpPageState extends State<SignUpPage> {
   final _signUpKey = GlobalKey<FormState>();
   final AuthService _auth = AuthService();
   UserModel _userModel = UserModel();
-  bool isLoading = false;
+  bool _isLoading = false;
+
+  Future<void> _registerUser() async {
+    setState(() {
+      _isLoading = true;
+    });
+    //UserModel
+    _userModel = UserModel(
+      name: _nameController.text,
+      email: _emailController.text.trim(),
+      password: _passwordController.text.trim(),
+      status: 1,
+      createdAt: DateTime.now(),
+    );
+    try {
+      await _auth.registerUser(_userModel);
+      if (!mounted) return;
+      Navigator.pushNamedAndRemoveUntil(context, '/homePage', (route) => false);
+    } on FirebaseAuthException catch (e) {
+      ShowExceptionBar.showSnackBar(context, e.message);
+    } on FirebaseException catch (e) {
+      ShowExceptionBar.showSnackBar(context, e.message);
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,41 +119,10 @@ class _SignUpPageState extends State<SignUpPage> {
                           buttonName: 'Sign up',
                           onPressed: () async {
                             //Handle sign up action
-                            if (_signUpKey.currentState!.validate()) {
-                              setState(() {
-                                isLoading = true;
-                              });
-                              //UserModel
-                              _userModel = UserModel(
-                                name: _nameController.text,
-                                email: _emailController.text.trim(),
-                                password: _passwordController.text.trim(),
-                                status: 1,
-                                createdAt: DateTime.now(),
-                              );
-                              try {
-                                await _auth.registerUser(_userModel);
-                                if (!context.mounted) return;
-                                Navigator.pushNamedAndRemoveUntil(
-                                  context,
-                                  '/homePage',
-                                  (route) => false,
-                                );
-                              } on FirebaseAuthException catch (e) {
-                                ShowExceptionBar.showSnackBar(
-                                  context,
-                                  e.message,
-                                );
-                              } on FirebaseException catch (e) {
-                                ShowExceptionBar.showSnackBar(
-                                  context,
-                                  e.message,
-                                );
-                              } finally {
-                                setState(() {
-                                  isLoading = false;
-                                });
-                              }
+                            if (!_isLoading &&
+                                _signUpKey.currentState!.validate()) {
+                              //call for register
+                              await _registerUser();
                             }
                           },
                         ),
@@ -135,7 +133,7 @@ class _SignUpPageState extends State<SignUpPage> {
               ),
               Center(
                 child: Visibility(
-                  visible: isLoading,
+                  visible: _isLoading,
                   child: CircularProgressIndicator(),
                 ),
               ),
