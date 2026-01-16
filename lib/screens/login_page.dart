@@ -1,5 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:task_flow/models/user_model.dart';
+import 'package:task_flow/services/auth_service.dart';
+import 'package:task_flow/utils/snack_bar.dart';
 import 'package:task_flow/widgets/custom_button.dart';
 import 'package:task_flow/widgets/text_form_field.dart';
 import 'package:task_flow/utils/validation.dart';
@@ -15,6 +18,28 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final _loginKey = GlobalKey<FormState>();
+
+  UserModel _userModel = UserModel();
+  final AuthService _auth = AuthService();
+
+  Future<void> _loginUser() async {
+    //UserModel
+    _userModel = UserModel(
+      email: _emailController.text.trim(),
+      password: _passwordController.text.trim(),
+    );
+    try {
+      await _auth.loginUser(_userModel);
+      if (!mounted) return;
+      Navigator.pushNamedAndRemoveUntil(context, '/homePage', (route) => false);
+    } on FirebaseAuthException catch (e) {
+      ShowExceptionBar.showSnackBar(context, e.message);
+    } on FirebaseException catch (e) {
+      ShowExceptionBar.showSnackBar(context, e.message);
+    } on Exception catch (e) {
+      ShowExceptionBar.showSnackBar(context, e.toString());
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,19 +81,7 @@ class _LoginPageState extends State<LoginPage> {
                   buttonName: 'Login',
                   onPressed: () async {
                     if (_loginKey.currentState!.validate()) {
-                      await FirebaseAuth.instance
-                          .signInWithEmailAndPassword(
-                            email: _emailController.text.trim(),
-                            password: _passwordController.text.trim(),
-                          )
-                          .then((value) {
-                            if (!context.mounted) return;
-                            Navigator.pushNamedAndRemoveUntil(
-                              context,
-                              '/homePage',
-                              (route) => false,
-                            );
-                          });
+                      await _loginUser();
                     }
                   },
                 ),

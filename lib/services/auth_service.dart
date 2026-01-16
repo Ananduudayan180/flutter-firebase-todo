@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:task_flow/models/user_model.dart';
 
 class AuthService {
@@ -29,5 +30,28 @@ class AuthService {
       rethrow;
     }
     return userData;
+  }
+
+  Future<void> loginUser(UserModel user) async {
+    final UserCredential userData;
+    try {
+      userData = await _auth.signInWithEmailAndPassword(
+        email: user.email!,
+        password: user.password!,
+      );
+      if (userData.user == null) {
+        throw Exception('User is null after login');
+      }
+      SharedPreferences pref = await SharedPreferences.getInstance();
+      final String? token = await userData.user!.getIdToken();
+      if (token == null) {
+        throw Exception('Token is null');
+      }
+      await pref.setString('token', token);
+    } on FirebaseAuthException catch (e) {
+      throw Exception(e);
+    } on FirebaseException catch (e) {
+      throw Exception(e.message);
+    }
   }
 }
