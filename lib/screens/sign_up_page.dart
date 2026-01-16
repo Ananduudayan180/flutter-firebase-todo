@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:task_flow/models/user_model.dart';
+import 'package:task_flow/widgets/circular_indicator.dart';
 import 'package:task_flow/widgets/custom_button.dart';
 import 'package:task_flow/utils/snack_bar.dart';
 import 'package:task_flow/widgets/text_form_field.dart';
@@ -131,12 +132,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                 ),
               ),
-              Center(
-                child: Visibility(
-                  visible: _isLoading,
-                  child: CircularProgressIndicator(),
-                ),
-              ),
+              CircularIndicator(isLoading: _isLoading),
             ],
           ),
         ),
