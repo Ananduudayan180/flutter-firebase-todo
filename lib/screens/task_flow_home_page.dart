@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:task_flow/services/auth_service.dart';
 import 'package:task_flow/utils/snack_bar.dart';
+import 'package:task_flow/widgets/circular_indicator.dart';
 
 class TaskFlowHomePage extends StatefulWidget {
   const TaskFlowHomePage({super.key});
@@ -12,7 +13,11 @@ class TaskFlowHomePage extends StatefulWidget {
 
 class _TaskFlowHomePageState extends State<TaskFlowHomePage> {
   final AuthService _authService = AuthService();
+  bool _isLoading = false;
   Future<void> _logOut() async {
+    setState(() {
+      _isLoading = true;
+    });
     try {
       await _authService.signOutUser();
       if (!mounted) return;
@@ -21,6 +26,10 @@ class _TaskFlowHomePageState extends State<TaskFlowHomePage> {
       return ShowExceptionBar.showSnackBar(context, e.message);
     } on FirebaseException catch (e) {
       return ShowExceptionBar.showSnackBar(context, e.message);
+    } finally {
+      if (mounted) {
+        _isLoading = false;
+      }
     }
   }
 
@@ -43,85 +52,92 @@ class _TaskFlowHomePageState extends State<TaskFlowHomePage> {
           child: SizedBox(
             height: double.infinity,
             width: double.infinity,
-            child: Column(
+            child: Stack(
               children: [
-                //Name and Profile widget
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                Column(
                   children: [
-                    SizedBox(
-                      //Hi David
-                      child: Row(
-                        children: [
-                          Text('Hi', style: themeData.textTheme.bodyMedium),
-                          SizedBox(width: 5),
-                          Text(
-                            'David',
-                            style: themeData.textTheme.headlineMedium,
+                    //Name and Profile widget
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SizedBox(
+                          //Hi David
+                          child: Row(
+                            children: [
+                              Text('Hi', style: themeData.textTheme.bodyMedium),
+                              SizedBox(width: 5),
+                              Text(
+                                'David',
+                                style: themeData.textTheme.headlineMedium,
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    ),
-                    CircleAvatar(
-                      child: CircleAvatar(
-                        child: IconButton(
-                          onPressed: () async {
-                            await _logOut();
-                          },
-                          icon: Icon(Icons.logout),
                         ),
+                        CircleAvatar(
+                          child: CircleAvatar(
+                            child: IconButton(
+                              onPressed: _isLoading
+                                  ? null
+                                  : () async {
+                                      await _logOut();
+                                    },
+                              icon: Icon(Icons.logout),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Expanded(
+                      child: ListView.builder(
+                        itemBuilder: (context, index) {
+                          return Card(
+                            color: themeData.scaffoldBackgroundColor,
+                            margin: EdgeInsets.symmetric(vertical: 8),
+                            child: ListTile(
+                              leading: CircleAvatar(
+                                backgroundColor: Colors.transparent,
+                                child: Icon(
+                                  Icons.circle_outlined,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              title: Text(
+                                'Task $index',
+                                style: themeData.textTheme.bodyLarge,
+                              ),
+                              subtitle: Text(
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                'Task details go here',
+                                style: themeData.textTheme.bodyMedium,
+                              ),
+                              trailing: SizedBox(
+                                height: 100,
+                                width: 100,
+                                child: Row(
+                                  children: [
+                                    IconButton(
+                                      color: Colors.teal,
+                                      onPressed: () {},
+                                      icon: Icon(Icons.edit),
+                                    ),
+                                    IconButton(
+                                      color: Colors.red,
+                                      onPressed: () {},
+                                      icon: Icon(Icons.delete),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                        itemCount: 10,
                       ),
                     ),
                   ],
                 ),
-                Expanded(
-                  child: ListView.builder(
-                    itemBuilder: (context, index) {
-                      return Card(
-                        color: themeData.scaffoldBackgroundColor,
-                        margin: EdgeInsets.symmetric(vertical: 8),
-                        child: ListTile(
-                          leading: CircleAvatar(
-                            backgroundColor: Colors.transparent,
-                            child: Icon(
-                              Icons.circle_outlined,
-                              color: Colors.white,
-                            ),
-                          ),
-                          title: Text(
-                            'Task $index',
-                            style: themeData.textTheme.bodyLarge,
-                          ),
-                          subtitle: Text(
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            'Task details go here',
-                            style: themeData.textTheme.bodyMedium,
-                          ),
-                          trailing: SizedBox(
-                            height: 100,
-                            width: 100,
-                            child: Row(
-                              children: [
-                                IconButton(
-                                  color: Colors.teal,
-                                  onPressed: () {},
-                                  icon: Icon(Icons.edit),
-                                ),
-                                IconButton(
-                                  color: Colors.red,
-                                  onPressed: () {},
-                                  icon: Icon(Icons.delete),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                    itemCount: 10,
-                  ),
-                ),
+                CircularIndicator(isLoading: _isLoading),
               ],
             ),
           ),
