@@ -1,4 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:task_flow/services/auth_service.dart';
+import 'package:task_flow/utils/snack_bar.dart';
 
 class TaskFlowHomePage extends StatefulWidget {
   const TaskFlowHomePage({super.key});
@@ -8,6 +11,19 @@ class TaskFlowHomePage extends StatefulWidget {
 }
 
 class _TaskFlowHomePageState extends State<TaskFlowHomePage> {
+  final AuthService _authService = AuthService();
+  Future<void> _logOut() async {
+    try {
+      await _authService.signOutUser();
+      if (!mounted) return;
+      Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+    } on FirebaseAuthException catch (e) {
+      return ShowExceptionBar.showSnackBar(context, e.message);
+    } on FirebaseException catch (e) {
+      return ShowExceptionBar.showSnackBar(context, e.message);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
@@ -46,7 +62,16 @@ class _TaskFlowHomePageState extends State<TaskFlowHomePage> {
                         ],
                       ),
                     ),
-                    CircleAvatar(),
+                    CircleAvatar(
+                      child: CircleAvatar(
+                        child: IconButton(
+                          onPressed: () async {
+                            await _logOut();
+                          },
+                          icon: Icon(Icons.logout),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
                 Expanded(

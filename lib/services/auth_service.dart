@@ -54,4 +54,16 @@ class AuthService {
       throw Exception(e.message);
     }
   }
+
+  Future<void> signOutUser() async {
+    try {
+      await _auth.signOut();
+    } on FirebaseAuthException catch (_) {
+      rethrow;
+    } on FirebaseException catch (_) {
+      rethrow;
+    }
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    await pref.clear();
+  }
 }
