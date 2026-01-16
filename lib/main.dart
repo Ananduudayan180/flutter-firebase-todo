@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:task_flow/screens/add_task_page.dart';
+import 'package:task_flow/screens/splash_page.dart';
 import 'package:task_flow/screens/task_flow_home_page.dart';
 import 'package:task_flow/screens/login_page.dart';
 import 'package:task_flow/screens/sign_up_page.dart';
@@ -50,8 +51,9 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      initialRoute: '/login',
+      initialRoute: '/splash',
       routes: {
+        '/splash': (context) => SplashPage(),
         '/login': (context) => LoginPage(),
         '/signUp': (context) => SignUpPage(),
         '/homePage': (context) => TaskFlowHomePage(),
