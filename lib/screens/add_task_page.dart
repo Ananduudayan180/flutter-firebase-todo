@@ -42,6 +42,13 @@ class _AddTaskPageState extends State<AddTaskPage> {
   }
 
   @override
+  void dispose() {
+    _titleController.dispose();
+    _descriptionController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
     return Scaffold(
