@@ -1,13 +1,45 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:task_flow/models/task_model.dart';
+import 'package:task_flow/services/task_service.dart';
+import 'package:task_flow/utils/snack_bar.dart';
 import 'package:task_flow/widgets/custom_button.dart';
 import 'package:task_flow/widgets/text_form_field.dart';
 import 'package:task_flow/utils/validation.dart';
+import 'package:uuid/uuid.dart';
 
-class AddTaskPage extends StatelessWidget {
-  AddTaskPage({super.key});
+class AddTaskPage extends StatefulWidget {
+  const AddTaskPage({super.key});
+
+  @override
+  State<AddTaskPage> createState() => _AddTaskPageState();
+}
+
+class _AddTaskPageState extends State<AddTaskPage> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final _addTaskKey = GlobalKey<FormState>();
+  final TaskService _taskService = TaskService();
+  TaskModel _task = TaskModel();
+  final uuid = const Uuid();
+
+  Future<void> _addTask() async {
+    _task = TaskModel(
+      title: _titleController.text,
+      content: _descriptionController.text,
+      status: 1,
+      id: uuid.v4(),
+      createAt: DateTime.now(),
+    );
+    try {
+      await _taskService.addUserTask(_task);
+      if (!mounted) return;
+      Navigator.of(context).pop();
+      ShowExceptionBar.showSnackBar(context, 'Task created');
+    } on FirebaseException catch (e) {
+      ShowExceptionBar.showSnackBar(context, e.message);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,9 +86,10 @@ class AddTaskPage extends StatelessWidget {
                     //Add Task Button
                     CustomButton(
                       buttonName: 'Add Task',
-                      onPressed: () {
+                      onPressed: () async {
                         if (_addTaskKey.currentState?.validate() ?? false) {
                           //Handle add task action
+                          await _addTask();
                         }
                       },
                     ),
