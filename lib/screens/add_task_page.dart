@@ -9,7 +9,8 @@ import 'package:task_flow/utils/validation.dart';
 import 'package:uuid/uuid.dart';
 
 class AddTaskPage extends StatefulWidget {
-  const AddTaskPage({super.key});
+  final TaskModel? taskModel;
+  const AddTaskPage({super.key, this.taskModel});
 
   @override
   State<AddTaskPage> createState() => _AddTaskPageState();
@@ -41,11 +42,41 @@ class _AddTaskPageState extends State<AddTaskPage> {
     }
   }
 
+  void _ifUpdateTask() {
+    _titleController.text = widget.taskModel!.title!;
+    _descriptionController.text = widget.taskModel!.content!;
+  }
+
+  Future<void> _updateTask() async {
+    final updatedTask = TaskModel(
+      id: widget.taskModel!.id,
+      title: _titleController.text,
+      content: _descriptionController.text,
+      status: widget.taskModel!.status,
+      createAt: widget.taskModel!.createAt,
+    );
+    try {
+      await _taskService.updateUserTask(updatedTask);
+      if (!mounted) return;
+      Navigator.of(context).pop();
+    } on FirebaseException catch (e) {
+      ShowExceptionBar.showSnackBar(context, e.message);
+    }
+  }
+
   @override
   void dispose() {
     _titleController.dispose();
     _descriptionController.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.taskModel != null) {
+      _ifUpdateTask();
+    }
   }
 
   @override
@@ -96,7 +127,13 @@ class _AddTaskPageState extends State<AddTaskPage> {
                       onPressed: () async {
                         if (_addTaskKey.currentState?.validate() ?? false) {
                           //Handle add task action
-                          await _addTask();
+                          if (widget.taskModel != null) {
+                            //update Task
+                            await _updateTask();
+                          } else {
+                            //add new task
+                            await _addTask();
+                          }
                         }
                       },
                     ),

@@ -8,4 +8,8 @@ class TaskService {
   Future<void> addUserTask(TaskModel task) async {
     await _taskCollection.doc(task.id).set(task.toJson());
   }
+
+  Future<void> updateUserTask(TaskModel task) async {
+    await _taskCollection.doc(task.id).update(task.toJson());
+  }
 }

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:task_flow/models/task_model.dart';
+import 'package:task_flow/screens/add_task_page.dart';
 import 'package:task_flow/widgets/circular_indicator.dart';
 
 class TaskListView extends StatelessWidget {
@@ -52,7 +53,15 @@ class TaskListView extends StatelessWidget {
                       children: [
                         IconButton(
                           color: Colors.teal,
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (cxt) {
+                                  return AddTaskPage(taskModel: task);
+                                },
+                              ),
+                            );
+                          },
                           icon: Icon(Icons.edit),
                         ),
                         IconButton(
