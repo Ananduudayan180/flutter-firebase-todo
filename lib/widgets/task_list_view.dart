@@ -2,12 +2,28 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:task_flow/models/task_model.dart';
 import 'package:task_flow/screens/add_task_page.dart';
+import 'package:task_flow/services/task_service.dart';
+import 'package:task_flow/utils/snack_bar.dart';
 import 'package:task_flow/widgets/circular_indicator.dart';
 
-class TaskListView extends StatelessWidget {
+class TaskListView extends StatefulWidget {
   const TaskListView({super.key, required this.themeData});
 
   final ThemeData themeData;
+
+  @override
+  State<TaskListView> createState() => _TaskListViewState();
+}
+
+class _TaskListViewState extends State<TaskListView> {
+  Future<void> deleteTask(TaskModel task) async {
+    try {
+      await TaskService().deleteUserTask(task.id!);
+      if (!mounted) return;
+    } on FirebaseException catch (e) {
+      ShowExceptionBar.showSnackBar(context, e.message);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +45,7 @@ class TaskListView extends StatelessWidget {
             itemBuilder: (context, index) {
               final task = TaskModel.fromJson(snapshot.data!.docs[index]);
               return Card(
-                color: themeData.scaffoldBackgroundColor,
+                color: widget.themeData.scaffoldBackgroundColor,
                 margin: EdgeInsets.symmetric(vertical: 8),
                 child: ListTile(
                   leading: CircleAvatar(
@@ -38,13 +54,13 @@ class TaskListView extends StatelessWidget {
                   ),
                   title: Text(
                     task.title!,
-                    style: themeData.textTheme.bodyLarge,
+                    style: widget.themeData.textTheme.bodyLarge,
                   ),
                   subtitle: Text(
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     task.content!,
-                    style: themeData.textTheme.bodyMedium,
+                    style: widget.themeData.textTheme.bodyMedium,
                   ),
                   trailing: SizedBox(
                     height: 100,
@@ -66,7 +82,9 @@ class TaskListView extends StatelessWidget {
                         ),
                         IconButton(
                           color: Colors.red,
-                          onPressed: () {},
+                          onPressed: () async {
+                            await deleteTask(task);
+                          },
                           icon: Icon(Icons.delete),
                         ),
                       ],

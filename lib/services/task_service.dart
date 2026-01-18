@@ -12,4 +12,8 @@ class TaskService {
   Future<void> updateUserTask(TaskModel task) async {
     await _taskCollection.doc(task.id).update(task.toJson());
   }
+
+  Future<void> deleteUserTask(String id) async {
+    await _taskCollection.doc(id).delete();
+  }
 }
