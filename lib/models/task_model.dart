@@ -15,7 +15,7 @@ class TaskModel {
       title: snap['title'],
       content: snap['content'],
       status: snap['status'],
-      createAt: snap['createAt'],
+      createAt: (snap['createAt'] as Timestamp).toDate(),
     );
   }
 
