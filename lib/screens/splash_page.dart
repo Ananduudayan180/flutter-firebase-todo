@@ -13,7 +13,7 @@ class _SplashPageState extends State<SplashPage> {
     SharedPreferences pref = await SharedPreferences.getInstance();
     final token = pref.getString('token');
     final userName = pref.getString('name');
-    await Future.delayed(Duration(seconds: 1));
+    await Future.delayed(const Duration(seconds: 1));
     if (!mounted) return;
     if (token != null) {
       Navigator.pushNamedAndRemoveUntil(

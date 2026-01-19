@@ -80,14 +80,14 @@ class _LoginPageState extends State<LoginPage> {
                       'Log in to your Account',
                       style: themeData.textTheme.titleMedium,
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     //Email TextFormField
                     AppTextFormField(
                       hintText: 'Email',
                       validator: Validation.emailValidator,
                       controller: _emailController,
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     //Pass TextFormField
                     AppTextFormField(
                       hintText: 'Password',
@@ -95,7 +95,7 @@ class _LoginPageState extends State<LoginPage> {
                       controller: _passwordController,
                       obscureText: true,
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     //Login Button
                     CustomButton(
                       buttonName: 'Login',
@@ -105,7 +105,7 @@ class _LoginPageState extends State<LoginPage> {
                         }
                       },
                     ),
-                    SizedBox(height: 30),
+                    const SizedBox(height: 30),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -113,13 +113,13 @@ class _LoginPageState extends State<LoginPage> {
                           "Don't have an Account?",
                           style: themeData.textTheme.bodyLarge,
                         ),
-                        SizedBox(width: 5),
+                        const SizedBox(width: 5),
                         InkWell(
                           onTap: () {
                             //Handle create account action
                             Navigator.pushNamed(context, '/signUp');
                           },
-                          child: Text(
+                          child: const Text(
                             'Create Account',
                             style: TextStyle(
                               color: Colors.teal,

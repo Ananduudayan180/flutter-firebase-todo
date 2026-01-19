@@ -32,13 +32,13 @@ class _TaskListViewState extends State<TaskListView> {
       stream: _taskService.getAllUserTask(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularIndicator(isLoading: true);
+          return const CircularIndicator(isLoading: true);
         }
         if (snapshot.hasError) {
-          return Center(child: Text('Some Error Occured'));
+          return const Center(child: Text('Some Error Occured'));
         }
         if (snapshot.hasData && snapshot.data!.isEmpty) {
-          return Center(child: Text('Add Your Task'));
+          return const Center(child: Text('Add Your Task'));
         }
         if (snapshot.hasData && //hasdata means data und (has - und)
             snapshot.data!.isNotEmpty) {
@@ -47,9 +47,9 @@ class _TaskListViewState extends State<TaskListView> {
               final task = snapshot.data![index];
               return Card(
                 color: widget.themeData.scaffoldBackgroundColor,
-                margin: EdgeInsets.symmetric(vertical: 8),
+                margin: const EdgeInsets.symmetric(vertical: 8),
                 child: ListTile(
-                  leading: CircleAvatar(
+                  leading: const CircleAvatar(
                     backgroundColor: Colors.transparent,
                     child: Icon(Icons.circle_outlined, color: Colors.white),
                   ),
@@ -79,14 +79,14 @@ class _TaskListViewState extends State<TaskListView> {
                               ),
                             );
                           },
-                          icon: Icon(Icons.edit),
+                          icon: const Icon(Icons.edit),
                         ),
                         IconButton(
                           color: Colors.red,
                           onPressed: () async {
                             await deleteTask(task);
                           },
-                          icon: Icon(Icons.delete),
+                          icon: const Icon(Icons.delete),
                         ),
                       ],
                     ),
@@ -97,7 +97,7 @@ class _TaskListViewState extends State<TaskListView> {
             itemCount: snapshot.data!.length,
           );
         }
-        return CircularIndicator(isLoading: true);
+        return const CircularIndicator(isLoading: true);
       },
     );
   }

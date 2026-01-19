@@ -45,7 +45,7 @@ class _TaskFlowHomePageState extends State<TaskFlowHomePage> {
         onPressed: () {
           Navigator.pushNamed(context, '/addTask');
         },
-        child: Icon(Icons.add, color: Colors.white),
+        child: const Icon(Icons.add, color: Colors.white),
       ),
       body: SafeArea(
         child: Padding(
@@ -67,7 +67,7 @@ class _TaskFlowHomePageState extends State<TaskFlowHomePage> {
                           child: Row(
                             children: [
                               Text('Hi', style: themeData.textTheme.bodyMedium),
-                              SizedBox(width: 5),
+                              const SizedBox(width: 5),
                               Text(
                                 //user Name
                                 widget.userName ?? '',
@@ -85,7 +85,7 @@ class _TaskFlowHomePageState extends State<TaskFlowHomePage> {
                                   : () async {
                                       await _logOut();
                                     },
-                              icon: Icon(Icons.logout),
+                              icon: const Icon(Icons.logout),
                             ),
                           ),
                         ),

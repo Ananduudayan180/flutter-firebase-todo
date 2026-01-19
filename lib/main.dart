@@ -22,12 +22,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        appBarTheme: AppBarTheme(
+        appBarTheme: const AppBarTheme(
           backgroundColor: Colors.transparent,
           elevation: 0,
           iconTheme: IconThemeData(color: Colors.white),
         ),
-        scaffoldBackgroundColor: Color(0xff0E1D3E),
+        scaffoldBackgroundColor: const Color(0xff0E1D3E),
         textTheme: TextTheme(
           headlineMedium: GoogleFonts.poppins(
             color: Colors.white,
@@ -53,11 +53,11 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/splash',
       routes: {
-        '/splash': (context) => SplashPage(),
-        '/login': (context) => LoginPage(),
-        '/signUp': (context) => SignUpPage(),
+        '/splash': (context) => const SplashPage(),
+        '/login': (context) => const LoginPage(),
+        '/signUp': (context) => const SignUpPage(),
         // '/homePage': (context) => TaskFlowHomePage(),
-        '/addTask': (context) => AddTaskPage(),
+        '/addTask': (context) => const AddTaskPage(),
       },
       onGenerateRoute: (settings) {
         if (settings.name == '/homePage') {

@@ -7,7 +7,7 @@ class CircularIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Visibility(visible: isLoading, child: CircularProgressIndicator()),
+      child: Visibility(visible: isLoading, child: const CircularProgressIndicator()),
     );
   }
 }

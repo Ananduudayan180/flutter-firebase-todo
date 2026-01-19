@@ -85,7 +85,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios),
+          icon: const Icon(Icons.arrow_back_ios),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -110,14 +110,14 @@ class _AddTaskPageState extends State<AddTaskPage> {
                   validator: Validation.taskTitleValidator,
                   controller: _titleController,
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 //Description TextFormField
                 AppTextFormField(
                   hintText: 'Description',
                   validator: Validation.taskContentValidator,
                   controller: _descriptionController,
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

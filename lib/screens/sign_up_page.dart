@@ -61,7 +61,7 @@ class _SignUpPageState extends State<SignUpPage> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: Colors.white),
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -92,21 +92,21 @@ class _SignUpPageState extends State<SignUpPage> {
                           'Create your Account',
                           style: themeData.textTheme.titleMedium,
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         //Name TextFormField
                         AppTextFormField(
                           hintText: 'Name',
                           validator: Validation.nameValidator,
                           controller: _nameController,
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         //Email TextFormField
                         AppTextFormField(
                           hintText: 'Email',
                           validator: Validation.emailValidator,
                           controller: _emailController,
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         //Pass TextFormField
                         AppTextFormField(
                           hintText: 'Password',
@@ -114,7 +114,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           controller: _passwordController,
                           obscureText: true,
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         //Login Button
                         CustomButton(
                           buttonName: 'Sign up',
