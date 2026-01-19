@@ -16,6 +16,7 @@ class TaskListView extends StatefulWidget {
 }
 
 class _TaskListViewState extends State<TaskListView> {
+  final TaskService _taskService = TaskService();
   Future<void> deleteTask(TaskModel task) async {
     try {
       await TaskService().deleteUserTask(task.id!);
@@ -27,8 +28,8 @@ class _TaskListViewState extends State<TaskListView> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-      stream: FirebaseFirestore.instance.collection('tasks').snapshots(),
+    return StreamBuilder<List<TaskModel>>(
+      stream: _taskService.getAllUserTask(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return CircularIndicator(isLoading: true);
@@ -36,14 +37,14 @@ class _TaskListViewState extends State<TaskListView> {
         if (snapshot.hasError) {
           return Center(child: Text('Some Error Occured'));
         }
-        if (snapshot.hasData && snapshot.data!.docs.isEmpty) {
+        if (snapshot.hasData && snapshot.data!.isEmpty) {
           return Center(child: Text('Add Your Task'));
         }
         if (snapshot.hasData && //hasdata means data und (has - und)
-            snapshot.data!.docs.isNotEmpty) {
+            snapshot.data!.isNotEmpty) {
           return ListView.builder(
             itemBuilder: (context, index) {
-              final task = TaskModel.fromJson(snapshot.data!.docs[index]);
+              final task = snapshot.data![index];
               return Card(
                 color: widget.themeData.scaffoldBackgroundColor,
                 margin: EdgeInsets.symmetric(vertical: 8),
@@ -93,7 +94,7 @@ class _TaskListViewState extends State<TaskListView> {
                 ),
               );
             },
-            itemCount: snapshot.data!.docs.length,
+            itemCount: snapshot.data!.length,
           );
         }
         return CircularIndicator(isLoading: true);

@@ -16,4 +16,16 @@ class TaskService {
   Future<void> deleteUserTask(String id) async {
     await _taskCollection.doc(id).delete();
   }
+
+  Stream<List<TaskModel>> getAllUserTask() {
+    try {
+      return _taskCollection.snapshots().map((QuerySnapshot snapshot) {
+        return snapshot.docs.map((DocumentSnapshot doc) {
+          return TaskModel.fromJson(doc);
+        }).toList();
+      });
+    } on FirebaseException catch (_) {
+     rethrow;
+    }
+  }
 }
