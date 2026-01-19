@@ -6,7 +6,8 @@ import 'package:task_flow/widgets/circular_indicator.dart';
 import 'package:task_flow/widgets/task_list_view.dart';
 
 class TaskFlowHomePage extends StatefulWidget {
-  const TaskFlowHomePage({super.key});
+  final String? userName;
+  const TaskFlowHomePage({super.key, this.userName});
 
   @override
   State<TaskFlowHomePage> createState() => _TaskFlowHomePageState();
@@ -68,7 +69,8 @@ class _TaskFlowHomePageState extends State<TaskFlowHomePage> {
                               Text('Hi', style: themeData.textTheme.bodyMedium),
                               SizedBox(width: 5),
                               Text(
-                                'David',
+                                //user Name
+                                widget.userName ?? '',
                                 style: themeData.textTheme.headlineMedium,
                               ),
                             ],
@@ -76,6 +78,7 @@ class _TaskFlowHomePageState extends State<TaskFlowHomePage> {
                         ),
                         CircleAvatar(
                           child: CircleAvatar(
+                            backgroundColor: Colors.white,
                             child: IconButton(
                               onPressed: _isLoading
                                   ? null

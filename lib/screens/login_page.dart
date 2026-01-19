@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:task_flow/models/user_model.dart';
 import 'package:task_flow/services/auth_service.dart';
 import 'package:task_flow/utils/snack_bar.dart';
@@ -34,8 +35,15 @@ class _LoginPageState extends State<LoginPage> {
     );
     try {
       await _auth.loginUser(_userModel);
+      SharedPreferences pref = await SharedPreferences.getInstance();
+      final userName = pref.getString('name');
       if (!mounted) return;
-      Navigator.pushNamedAndRemoveUntil(context, '/homePage', (route) => false);
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        '/homePage',
+        (route) => false,
+        arguments: userName,
+      );
     } on FirebaseAuthException catch (e) {
       ShowExceptionBar.showSnackBar(context, e.message);
     } on FirebaseException catch (e) {

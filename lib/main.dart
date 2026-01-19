@@ -56,8 +56,17 @@ class MyApp extends StatelessWidget {
         '/splash': (context) => SplashPage(),
         '/login': (context) => LoginPage(),
         '/signUp': (context) => SignUpPage(),
-        '/homePage': (context) => TaskFlowHomePage(),
+        // '/homePage': (context) => TaskFlowHomePage(),
         '/addTask': (context) => AddTaskPage(),
+      },
+      onGenerateRoute: (settings) {
+        if (settings.name == '/homePage') {
+          final userName = settings.arguments as String?;
+          return MaterialPageRoute(
+            builder: (_) => TaskFlowHomePage(userName: userName),
+          );
+        }
+        return null;
       },
     );
   }

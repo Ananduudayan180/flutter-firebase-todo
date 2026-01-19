@@ -12,10 +12,16 @@ class _SplashPageState extends State<SplashPage> {
   Future<void> isLoggedIn() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     final token = pref.getString('token');
+    final userName = pref.getString('name');
     await Future.delayed(Duration(seconds: 1));
     if (!mounted) return;
     if (token != null) {
-      Navigator.pushNamedAndRemoveUntil(context, '/homePage', (route) => false);
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        '/homePage',
+        (route) => false,
+        arguments: userName,
+      );
     } else {
       Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
     }

@@ -47,7 +47,11 @@ class AuthService {
       if (token == null) {
         throw Exception('Token is null');
       }
+      DocumentSnapshot snap = await _userCollection
+          .doc(userData.user!.uid)
+          .get();
       await pref.setString('token', token);
+      await pref.setString('name', snap['name']);
     } on FirebaseAuthException catch (e) {
       throw Exception(e);
     } on FirebaseException catch (e) {
