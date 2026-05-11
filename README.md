@@ -5,14 +5,6 @@ Main goal was to understand Firebase Authentication and Firestore with Flutter.
 
 ---
 
-## 📸 Screenshots
-
-| Splash | Login | Home |
-|--------|-------|------|
-| add_your_ss_here | add_your_ss_here | add_your_ss_here |
-
----
-
 ## 🎯 Purpose of This Project
 
 - Learn Firebase Authentication  
